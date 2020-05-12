@@ -7,7 +7,7 @@ class MyModel(ccobra.CCobraModel):
         """
 
         # Call the super constructor to fully initialize the model
-        supported_domains = ['propositional']
+        supported_domains = ['decision-making']
         supported_response_types = ['single-choice']
         super(MyModel, self).__init__(
             name, supported_domains, supported_response_types)
