@@ -95,6 +95,6 @@ class DataParser:
 
 
 if __name__ == "__main__":
-    data_Parser = DataParser('raw_data/raw-comp-set-data-Track-1.csv')
-    data_Parser = DataParser('raw_data/All estimation raw data.csv')
+    data_Parser = DataParser('raw-comp-set-data-Track-1.csv')
+    data_Parser = DataParser('All estimation raw data.csv')
 
