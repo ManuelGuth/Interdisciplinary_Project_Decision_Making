@@ -5,6 +5,7 @@
     "domains": ["decision-making"],
     "response_types": ["single-choice"],
     "models": [
-        "models/max_expected_value/maxExpectedValue.py"
+        "models/max_expected_value/maxExpectedValue.py",
+        "models/OnlyA/OnlyA.py"
     ]
 }
