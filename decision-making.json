@@ -1,0 +1,10 @@
+{
+    "corresponding_data": false,
+    "data.train": "data/decision-making-train.csv",
+    "data.test": "data/decision-making-test.csv",
+    "domains": ["decision-making"],
+    "response_types": ["single-choice"],
+    "models": [
+        "data/data_test/test_data_integration.py"
+    ]
+}
