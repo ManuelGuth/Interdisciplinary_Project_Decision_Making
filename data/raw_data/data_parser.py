@@ -5,13 +5,14 @@ class DataParser:
     """
     Class to parse the raw experiment data form the CPC-18 and transform it to a format readable by ccobra.
     """
-    def __init__(self, data):
+    def __init__(self, data=None):
         self.previous_feedback = None
-        self.file_name = data[:-4] + 'transformed.csv'
+        if data is not None:
+            self.file_name = data[:-4] + 'transformed.csv'
 
-        data_loader = self.load_data(data)
-        transformed_data = self.transform_data(data_loader)
-        self.safe_data(transformed_data)
+            data_loader = self.load_data(data)
+            transformed_data = self.transform_data(data_loader)
+            self.safe_data(transformed_data)
 
     def load_data(self, data):
         with open(data) as data_set:
