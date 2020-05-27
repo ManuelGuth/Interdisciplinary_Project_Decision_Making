@@ -1,0 +1,12 @@
+{
+    "corresponding_data": false,
+    "data.train": "data/MLTrainTestSplit/decision-making-train-train-split.csv",
+    "data.test": "data/MLTrainTestSplit/decision-making-train-validation-split.csv",
+    "domains": ["decision-making"],
+    "response_types": ["single-choice"],
+    "models": [
+        "models/max_expected_value/maxExpectedValue.py",
+        "models/OnlyA/OnlyA.py",
+        "models/last_given_answer/lastGivenAnswer.py"
+    ]
+}
