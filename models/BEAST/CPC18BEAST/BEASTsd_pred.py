@@ -25,10 +25,10 @@ def CPC18_BEASTsd_pred(Ha, pHa, La, LotShapeA, LotNumA, Hb, pHb, Lb, LotShapeB, 
     DistB = CPC18_getDist(Hb, pHb, Lb, LotShapeB, LotNumB)
 
     # get the probabilities that each option gives greater value than the other
-    probsBetter = get_pBetter(DistA, DistB, corr=1, accuracy=10)  # 100000
+    probsBetter = get_pBetter(DistA, DistB, corr=1, accuracy=100000)  # 100000
 
     # run model simulation nSims times
-    nSims = 1 # 5000
+    nSims = 5000    # 5000
     for sim in range(0, nSims):
         simPred = CPC18_BEASTsd_simulation(DistA, DistB, Amb, Corr, probsBetter)
         Prediction = np.add(Prediction, (1 / nSims) * simPred)
