@@ -1,6 +1,6 @@
 {
     "corresponding_data": false,
-    "data.train": "data/decision-making-train.csv",
+    "data.pre_train": "data/decision-making-train.csv",
     "data.test": "data/decision-making-test.csv",
     "domains": ["decision-making"],
     "response_types": ["single-choice"],
