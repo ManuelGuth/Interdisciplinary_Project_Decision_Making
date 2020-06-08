@@ -70,9 +70,11 @@ class DataParser:
                               data['LotShapeB'] + ';' + data['LotNumB'] + '/' + data['Amb'] + ';' + data['Corr']
 
         if self.previous_feedback is not None:
-            ccobra_dict['prev_feedback'] = self.previous_feedback['payoff'] + ';' + self.previous_feedback['forgone']
+            ccobra_dict['payoff'] = self.previous_feedback['payoff']
+            ccobra_dict['forgone'] = self.previous_feedback['forgone']
         else:
-            ccobra_dict['prev_feedback'] = '-;-'
+            ccobra_dict['payoff'] = '-'
+            ccobra_dict['forgone'] = '-'
 
         if data['Feedback'] == '0' or data['Order'] == '30' and data['Trial'] == '25':
             self.previous_feedback = None
