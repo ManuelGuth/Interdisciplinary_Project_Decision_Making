@@ -11,7 +11,8 @@ class DataLoader:
     Amb, Corr, payoff, forgone]
     """
 
-    def __init__(self, data, batch_size=25, cuda=True):
+    def __init__(self, data, batch_size=25, eval=False, cuda=True):
+        self.eval = eval
         self.cuda = cuda
         self.data = data
         self.data_loader = []
@@ -19,10 +20,8 @@ class DataLoader:
         self.transform_data()
 
     def transform_data(self):
-        if self.batch_size == 1:
-            # TODO implement data loader for prediction case
+        if self.eval:
             item = self.data[0]
-            print(item)
             feedback = self.data[1]
             Ha, pHa, La, LotShapeA, LotNumA = item.task[0]
             Hb, pHb, Lb, LotShapeB, LotNumB = item.task[1]
@@ -49,9 +48,9 @@ class DataLoader:
                     data.append(array_form)
 
                     if response == 'B':
-                        response = [0, 1]
+                        response = [0.0, 1.0]
                     else:
-                        response = [1, 0]
+                        response = [1.0, 0.0]
                     label.append(response)
 
             for i in range(0, len(label), self.batch_size):
