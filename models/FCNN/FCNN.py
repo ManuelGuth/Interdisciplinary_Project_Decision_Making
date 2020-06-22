@@ -2,12 +2,13 @@ import ccobra
 import torch
 import torch.nn as nn
 import sys
-sys.path.append('C:/Users/Manuel/Desktop/Interdisciplinary_Project_Decision_Making/models')
+#sys.path.append('C:/Users/Manuel/Desktop/Interdisciplinary_Project_Decision_Making/models')
+sys.path.append('..')
+
 from DataLoader import DataLoader
 from torch.utils.tensorboard import SummaryWriter
 from copy import deepcopy
 import numpy as np
-
 
 class MyModel(ccobra.CCobraModel):
     """
@@ -18,7 +19,8 @@ class MyModel(ccobra.CCobraModel):
 
         """
         # set to path if you would like to load a model instead of training. Else False.
-        self.load = 'runs/FCNN_ep1000_bs750_lr0.001/best_model.pth'
+        # self.load = 'runs/FCNN_ep1000_bs750_lr0.001/best_model.pth'
+        self.load = False
         self.lr = 0.001
         self.num_epochs = 100
         self.batch_size = 750
@@ -29,7 +31,7 @@ class MyModel(ccobra.CCobraModel):
         super(MyModel, self).__init__(
             name, supported_domains, supported_response_types)
 
-        self.FCNN = nn.Sequential(nn.Linear(20, 200),
+        self.FCNN = nn.Sequential(nn.Linear(22, 200),
                                   nn.ReLU(),
                                   nn.Dropout(0.15),
                                   nn.Linear(200, 275),
@@ -40,6 +42,8 @@ class MyModel(ccobra.CCobraModel):
                                   nn.Dropout(0.15),
                                   nn.Linear(100, 2),
                                   nn.Sigmoid()).cuda()
+        self.prev_answer = [0.0, 0.0]
+        self.cnt = 0
 
     def start_participant(self, **kwargs):
         """ Model initialization method. Used to setup the initial state of
@@ -117,7 +121,7 @@ class MyModel(ccobra.CCobraModel):
         task: [[Ha, pHa, La, LotShapeA, NumLotA],[[Hb, pHb, Lb, LotShapeB, NumLotB]],[Amb, Corr]]
         """
         choice = ['A', 'B']
-        data = DataLoader([item, kwargs], batch_size=1, eval=True)
+        data = DataLoader([item, kwargs, self.prev_answer], batch_size=1, eval=True)
         data = data.data_loader
         with torch.no_grad():
             predictions = self.FCNN(torch.Tensor(data).cuda())
@@ -128,6 +132,13 @@ class MyModel(ccobra.CCobraModel):
         """ Trains the model based on a given problem-target combination.
 
         """
+        if target[0][0] == 'A':
+            self.prev_answer = [1.0, 0.0]
+        else:
+            self.prev_answer = [0.0, 1.0]
+        if self.cnt % 25 == 0 and self.cnt > 0:
+            self.prev_answer = [0.0, 0.0]
+        self.cnt += 1
         # retrain model on person
         #self.FCNN.train()
         #criterion = nn.CrossEntropyLoss()
@@ -149,5 +160,33 @@ class MyModel(ccobra.CCobraModel):
     def load_model(self):
         state_dict = torch.load(self.load)
         self.FCNN.load_state_dict(state_dict)
+
+
+[0.0, 0.0]
+[1.0, 0.0]
+[1.0, 0.0]
+[1.0, 0.0]
+[1.0, 0.0]
+[1.0, 0.0]
+[1.0, 0.0]
+[1.0, 0.0]
+[1.0, 0.0]
+[1.0, 0.0]
+[1.0, 0.0]
+[1.0, 0.0]
+[1.0, 0.0]
+[1.0, 0.0]
+[1.0, 0.0]
+[1.0, 0.0]
+[1.0, 0.0]
+[1.0, 0.0]
+[1.0, 0.0]
+[1.0, 0.0]
+[1.0, 0.0]
+[1.0, 0.0]
+[1.0, 0.0]
+[1.0, 0.0]
+[1.0, 0.0]
+
 
 
