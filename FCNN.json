@@ -5,7 +5,9 @@
     "domains": ["decision-making"],
     "response_types": ["single-choice"],
     "models": [
-        "models/last_given_answer/lastGivenAnswer.py",
-        "models/FCNN/FCNN.py"
+        "models/FCNN/FCNN.py",
+        "models/max_expected_value/maxExpectedValue.py",
+        "models/OnlyA/OnlyA.py",
+        "models/last_given_answer/lastGivenAnswer.py"
     ]
 }
