@@ -22,7 +22,7 @@ class MyModel(ccobra.CCobraModel):
         # self.load = 'runs/FCNN_ep1000_bs750_lr0.001/best_model.pth'
         self.load = False
         self.lr = 0.001
-        self.num_epochs = 1000
+        self.num_epochs = 1
         self.batch_size = 750
         name = name + '_ep{}_bs{}_lr{}'.format(self.num_epochs, self.batch_size, self.lr)
         supported_domains = ['decision-making']
@@ -47,6 +47,7 @@ class MyModel(ccobra.CCobraModel):
 
         self.criterion = nn.CrossEntropyLoss()
         self.optimizer = torch.optim.RMSprop(self.FCNN.parameters(), lr=self.lr)
+        self.adapt_optim = torch.optim.RMSprop(self.FCNN.parameters(), lr=self.lr*0.1)
 
     def start_participant(self, **kwargs):
         """ Model initialization method. Used to setup the initial state of
@@ -113,14 +114,15 @@ class MyModel(ccobra.CCobraModel):
                       self.num_epochs-1,mean_train_loss, mean_train_acc, mean_val_loss, mean_val_acc))
             self.FCNN = best_model
         else:
+            print('Loading model settings from {}'.format(self.load))
             self.load_model()
-        self.FCNN.eval()
 
     def predict(self, item, **kwargs):
         """ Predicts weighted responses to a given problem.
         a task look like this:
         task: [[Ha, pHa, La, LotShapeA, NumLotA],[[Hb, pHb, Lb, LotShapeB, NumLotB]],[Amb, Corr]]
         """
+        self.FCNN.eval()
         choice = ['A', 'B']
         data = DataLoader([item, kwargs, self.prev_answer], batch_size=1, eval=True)
         data = data.data_loader
@@ -133,24 +135,20 @@ class MyModel(ccobra.CCobraModel):
         """ Trains the model based on a given problem-target combination.
 
         """
-
-
         # retrain model on person
-        #self.FCNN.train()
-        #self.optimizer.zero_grad()
-        #data = DataLoader([item, kwargs, self.prev_answer], batch_size=1, eval=True)
-        #data = data.data_loader
-        #predictions = self.FCNN(torch.Tensor(data).cuda())
-        #if target[0][0] == 'A':
-        #    label = torch.Tensor([[0]]).float()
-        #else:
-        #    label = torch.Tensor([[1]]).float()
-        #print(predictions.shape)
-        #print(label.shape)
-        #loss = self.criterion(predictions, label)
-        #loss.backward()
-        #self.optimizer.step()
-        #self.FCNN.eval()
+        self.FCNN.train()
+        self.optimizer.zero_grad()
+        data = DataLoader([item, kwargs, self.prev_answer], batch_size=1, eval=True)
+        data = data.data_loader
+        predictions = self.FCNN(torch.Tensor(data).cuda())
+        predictions = torch.unsqueeze(predictions, dim=0)
+        if target[0][0] == 'A':
+            label = torch.Tensor([0]).long().cuda()
+        else:
+            label = torch.Tensor([1]).long().cuda()
+        loss = self.criterion(predictions, label)
+        loss.backward()
+        self.adapt_optim.step()
         if target[0][0] == 'A':
             self.prev_answer = [1.0, 0.0]
         else:
