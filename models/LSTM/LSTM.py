@@ -7,6 +7,7 @@ from torch.utils.tensorboard import SummaryWriter
 from copy import deepcopy
 import numpy as np
 
+
 class LSTM(ccobra.CCobraModel):
     """
     CCOBRA baseline model for the decision making task.
@@ -17,7 +18,7 @@ class LSTM(ccobra.CCobraModel):
         """
         # set to path if you would like to load a model instead of training. Else False.
         self.load = False
-        self.lr = 0.01
+        self.lr = 0.001
         self.num_epochs = 100
         self.batch_size = 5
         self.seq_length = 750
@@ -147,6 +148,9 @@ class LSTM(ccobra.CCobraModel):
             self.prev_answer = [0.0, 1.0]
         if self.cnt % 25 == 0 and self.cnt > 0:
             self.prev_answer = [0.0, 0.0]
+        if self.cnt % self.seq_length:
+            self.h0 = None
+            self.c0 = None
         self.cnt += 1
 
     def load_model(self):
