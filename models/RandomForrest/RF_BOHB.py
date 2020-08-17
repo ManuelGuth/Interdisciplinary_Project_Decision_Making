@@ -1,5 +1,3 @@
-import numpy
-import time
 import ccobra
 import logging
 logging.basicConfig(level=logging.INFO)
@@ -16,7 +14,9 @@ from sklearn.ensemble import RandomForestClassifier
 
 X = None
 y = None
-class RandomForrest(ccobra.CCobraModel):
+
+
+class BOHB_RandomForrest(ccobra.CCobraModel):
     """
     CCOBRA baseline model for the decision making task.
     """
@@ -33,7 +33,7 @@ class RandomForrest(ccobra.CCobraModel):
         supported_domains = ['decision-making']
         supported_response_types = ['single-choice']
         # Call the super constructor to fully initialize the model
-        super(RandomForrest, self).__init__(
+        super(BOHB_RandomForrest, self).__init__(
             name, supported_domains, supported_response_types)
 
         self.prev_answer = [0.0, 0.0]
@@ -50,15 +50,12 @@ class RandomForrest(ccobra.CCobraModel):
         """ Pre-trains the model based on one or more datasets.
 
         """
-
         run_id = 'first_run'
         host = '127.0.0.1'
-        min_budget = 50000
-        max_budget = 480000
-        n_workers = 2
-        n_iterations = 2
+        n_workers = 4
+        n_iterations = 40
 
-        data = DataLoader(dataset, 1)
+        data = DataLoader(dataset, 1, cuda=False)
         data = data.data_loader
         np.random.shuffle(data)
         X_ = []
@@ -70,6 +67,16 @@ class RandomForrest(ccobra.CCobraModel):
         global y
         X = np.array(X_)
         y = np.array(y_)
+
+        # shuffle the data
+        indices = np.arange(X.shape[0])
+        np.random.shuffle(indices)
+
+        X = X[indices]
+        y = y[indices]
+
+        min_budget = len(X)*0.01
+        max_budget = len(X)*0.25
 
         NS = hpns.NameServer(run_id=run_id, host=host, port=None)
         NS.start()
@@ -104,8 +111,8 @@ class RandomForrest(ccobra.CCobraModel):
         self.n_trees = id2config[incumbent]['config']['n_trees']
         self.rf_classifier = RandomForestClassifier(n_estimators=self.n_trees, max_depth=self.max_depth)
         self.rf_classifier.fit(X, y)
-        with open('config.txt','w+') as f:
-            print('Best config: n_trees {}, max_depth{}'.format(self.n_trees, self.max_depth),file=f)
+        with open('config.txt', 'a') as f:
+            print('Best config: n_trees: {}, max_depth: {}'.format(self.n_trees, self.max_depth), file=f)
 
     def predict(self, item, **kwargs):
         """ Predicts weighted responses to a given problem.
@@ -159,7 +166,7 @@ class RFWorker(Worker):
         res = RF.oob_score_
         print('Config of n_trees: {}, max_depth: {}, OOB score: {}'.format(n_trees, max_depth, res))
         return({
-                    'loss': float(-res),  # this is the a mandatory field to run hyperband
+                    'loss': 1 - res,  # this is the a mandatory field to run hyperband
                     'info': res  # can be used for any user-defined information - also mandatory
                 })
 
