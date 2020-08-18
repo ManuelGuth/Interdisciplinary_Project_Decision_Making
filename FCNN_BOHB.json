@@ -1,0 +1,14 @@
+{
+    "corresponding_data": false,
+    "data.pre_train": "data/MLTrainTestSplit/decision-making-MLsplit-train.csv",
+    "data.test": "data/MLTrainTestSplit/decision-making-MLsplit-validation.csv",
+    "domains": ["decision-making"],
+    "response_types": ["single-choice"],
+    "models": [
+        "models/FCNN/BOHB_FCNN.py",
+        "models/FCNN/BOHB_FCNN.py",
+        "models/FCNN/BOHB_FCNN.py",
+        "models/FCNN/BOHB_FCNN.py",
+        "models/FCNN/BOHB_FCNN.py"
+    ]
+}
