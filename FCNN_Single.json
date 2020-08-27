@@ -5,6 +5,6 @@
     "domains": ["decision-making"],
     "response_types": ["single-choice"],
     "models": [
-        "models/BEAST/BeastSingle.py"
+        "models/FCNN/FCNN_Single.py"
     ]
 }

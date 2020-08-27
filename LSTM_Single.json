@@ -5,6 +5,6 @@
     "domains": ["decision-making"],
     "response_types": ["single-choice"],
     "models": [
-        "models/BEAST/BeastSingle.py"
+        "models/LSTM/LSTM_Single.py"
     ]
 }
