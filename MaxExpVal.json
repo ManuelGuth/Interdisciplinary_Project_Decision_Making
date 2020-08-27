@@ -5,6 +5,6 @@
     "domains": ["decision-making"],
     "response_types": ["single-choice"],
     "models": [
-        "models/BEAST/BEAST.py"
+        "models/max_expected_value/maxExpectedValue.py"
     ]
 }
