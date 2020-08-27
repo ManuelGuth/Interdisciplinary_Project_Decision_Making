@@ -14,8 +14,8 @@ class RandomForrest(ccobra.CCobraModel):
         """ Model constructor.
 
         """
-        self.max_depth = 5
-        self.n_trees = 100
+        self.max_depth = 15
+        self.n_trees = 142
 
         name = name + 'n_trees_{}_maxdepth_{}'.format(self.n_trees, self.max_depth)
 

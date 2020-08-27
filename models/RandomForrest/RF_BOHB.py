@@ -53,7 +53,7 @@ class BOHB_RandomForrest(ccobra.CCobraModel):
         run_id = 'first_run'
         host = '127.0.0.1'
         n_workers = 4
-        n_iterations = 40
+        n_iterations = 150
 
         data = DataLoader(dataset, 1, cuda=False)
         data = data.data_loader
@@ -174,5 +174,5 @@ class RFWorker(Worker):
     def get_configspace():
         config_space = CS.ConfigurationSpace()
         config_space.add_hyperparameter(CS.UniformIntegerHyperparameter('max_depth', lower=1, upper=22))
-        config_space.add_hyperparameter(CS.UniformIntegerHyperparameter('n_trees', lower=40, upper=1000))
+        config_space.add_hyperparameter(CS.UniformIntegerHyperparameter('n_trees', lower=40, upper=750))
         return config_space

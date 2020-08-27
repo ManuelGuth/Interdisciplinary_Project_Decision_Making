@@ -52,7 +52,7 @@ class BOHB_FCNN(ccobra.CCobraModel):
         run_id = 'first_run'
         host = '127.0.0.1'
         n_workers = 4
-        n_iterations = 40
+        n_iterations = 150
 
         data_loader = DataLoader(dataset, batch_size=500)
         data_loader = data_loader.data_loader
@@ -64,8 +64,8 @@ class BOHB_FCNN(ccobra.CCobraModel):
         training_data = train_data
         validation_data = val_data
 
-        min_budget = 5
-        max_budget = 50
+        min_budget = 10
+        max_budget = 70
 
         NS = hpns.NameServer(run_id=run_id, host=host, port=None)
         NS.start()
