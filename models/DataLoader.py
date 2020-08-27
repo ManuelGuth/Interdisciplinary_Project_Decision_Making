@@ -12,13 +12,14 @@ class DataLoader:
     Amb, Corr, payoff, forgone, prev_answer_A, prev_answer_B]
     """
 
-    def __init__(self, data, batch_size=25, eval=False, cuda=True):
+    def __init__(self, data, batch_size=25, eval=False, cuda=True, single=False):
         self.eval = eval
         self.cuda = cuda
         self.data = data
         self.data_loader = []
         self.batch_size = batch_size
         self.transform_data()
+        self.single = single
 
     def transform_data(self):
         if self.eval:
@@ -28,9 +29,12 @@ class DataLoader:
             Ha, pHa, La, LotShapeA, LotNumA = item.task[0]
             Hb, pHb, Lb, LotShapeB, LotNumB = item.task[1]
             Amb, Corr = item.task[2]
-
-            payoff = feedback['payoff']
-            forgone = feedback['forgone']
+            if not self.single:
+                payoff = feedback['payoff']
+                forgone = feedback['forgone']
+            else:
+                payoff = '-'
+                forgone = '-'
             self.data_loader = self.get_array(Ha, pHa, La, LotShapeA, LotNumA, Hb, pHb, Lb, LotShapeB, LotNumB,
                                                    Amb, Corr, payoff, forgone, prev_anwer)
         else:
@@ -45,8 +49,13 @@ class DataLoader:
                     Ha, pHa, La, LotShapeA, LotNumA = item.task[0]
                     Hb, pHb, Lb, LotShapeB, LotNumB = item.task[1]
                     Amb, Corr = item.task[2]
-                    payoff = task['aux']['payoff']
-                    forgone = task['aux']['forgone']
+                    if not self.single:
+                        payoff = task['aux']['payoff']
+                        forgone = task['aux']['forgone']
+                    else:
+                        payoff = '-'
+                        forgone = '-'
+
                     array_form = self.get_array(Ha, pHa, La, LotShapeA, LotNumA, Hb, pHb, Lb, LotShapeB, LotNumB,
                                                 Amb, Corr, payoff, forgone, prev_answer)
                     data.append(array_form)
