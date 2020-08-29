@@ -15,7 +15,7 @@ class MyModel(ccobra.CCobraModel):
     """
     CCOBRA baseline model for the decision making task.
     """
-    def __init__(self, name='FCNN'):
+    def __init__(self, name='FCNN_Single'):
         """ Model constructor.
 
         """

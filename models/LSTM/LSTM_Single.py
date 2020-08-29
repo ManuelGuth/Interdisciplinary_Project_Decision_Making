@@ -12,7 +12,7 @@ class LSTM(ccobra.CCobraModel):
     """
     CCOBRA baseline model for the decision making task.
     """
-    def __init__(self, name='LSTM'):
+    def __init__(self, name='LSTM_Single'):
         """ Model constructor.
 
         """
