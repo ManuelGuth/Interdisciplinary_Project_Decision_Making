@@ -18,8 +18,10 @@ class DataLoader:
         self.data = data
         self.data_loader = []
         self.batch_size = batch_size
-        self.transform_data()
         self.single = single
+
+        self.transform_data()
+
 
     def transform_data(self):
         if self.eval:

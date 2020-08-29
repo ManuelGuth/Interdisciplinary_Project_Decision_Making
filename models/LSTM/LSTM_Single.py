@@ -18,9 +18,9 @@ class LSTM(ccobra.CCobraModel):
         """
         # set to path if you would like to load a model instead of training. Else False.
         self.load = False
-        self.lr = 0.001
-        self.num_epochs = 100
-        self.batch_size = 5
+        self.lr = 0.2
+        self.num_epochs = 1000
+        self.batch_size = 15
         self.seq_length = 30
         name = name + '_ep{}_bs{}_sq{}_lr{}'.format(self.num_epochs, self.batch_size, self.seq_length, self.lr)
 
@@ -52,7 +52,7 @@ class LSTM(ccobra.CCobraModel):
         """
         if not self.load:
             writer = SummaryWriter('runs/' + self.name)
-            data = DataLoader(dataset, 1, single=True)
+            data = DataLoader(dataset, batch_size=1, single=True)
             data = data.data_loader
             new_data = []
             for i in range(0, len(data), self.seq_length):

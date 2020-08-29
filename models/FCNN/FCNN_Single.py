@@ -22,7 +22,7 @@ class MyModel(ccobra.CCobraModel):
         # set to path if you would like to load a model instead of training. Else False.
         # self.load = 'runs/FCNN_ep1000_bs750_lr0.001/best_model.pth'
         self.load = False
-        self.lr = 0.001
+        self.lr = 0.000129
         self.num_epochs = 100
         self.batch_size = 20
         name = name + '_ep{}_bs{}_lr{}'.format(self.num_epochs, self.batch_size, self.lr)
@@ -32,23 +32,28 @@ class MyModel(ccobra.CCobraModel):
         super(MyModel, self).__init__(
             name, supported_domains, supported_response_types)
 
-        self.FCNN = nn.Sequential(nn.Linear(22, 200),
+        self.FCNN = nn.Sequential(nn.Linear(22, 310),
                                   nn.ReLU(),
-                                  nn.Dropout(0.15),
-                                  nn.Linear(200, 275),
+                                  nn.Dropout(0.10),
+                                  nn.Linear(310, 420),
                                   nn.ReLU(),
-                                  nn.Dropout(0.15),
-                                  nn.Linear(275, 100),
+                                  nn.Dropout(0.10),
+                                  nn.Linear(420, 800),
                                   nn.ReLU(),
-                                  nn.Dropout(0.15),
-                                  nn.Linear(100, 2),
-                                  nn.Sigmoid()).cuda()
+                                  nn.Dropout(0.10),
+                                  nn.Linear(800, 400),
+                                  nn.ReLU(),
+                                  nn.Dropout(0.10),
+                                  nn.Linear(400, 170),
+                                  nn.ReLU(),
+                                  nn.Dropout(0.10),
+                                  nn.Linear(170, 2)).cuda()
+
         self.prev_answer = [0.0, 0.0]
         self.cnt = 0
 
         self.criterion = nn.CrossEntropyLoss()
         self.optimizer = torch.optim.RMSprop(self.FCNN.parameters(), lr=self.lr)
-        self.adapt_optim = torch.optim.RMSprop(self.FCNN.parameters(), lr=self.lr*0.1)
 
     def start_participant(self, **kwargs):
         """ Model initialization method. Used to setup the initial state of
@@ -136,20 +141,6 @@ class MyModel(ccobra.CCobraModel):
         """ Trains the model based on a given problem-target combination.
 
         """
-        # retrain model on person
-        self.FCNN.train()
-        self.optimizer.zero_grad()
-        data = DataLoader([item, kwargs, self.prev_answer], batch_size=1, eval=True, single=True)
-        data = data.data_loader
-        predictions = self.FCNN(torch.Tensor(data).cuda())
-        predictions = torch.unsqueeze(predictions, dim=0)
-        if target[0][0] == 'A':
-            label = torch.Tensor([0]).long().cuda()
-        else:
-            label = torch.Tensor([1]).long().cuda()
-        loss = self.criterion(predictions, label)
-        loss.backward()
-        self.adapt_optim.step()
         if target[0][0] == 'A':
             self.prev_answer = [1.0, 0.0]
         else:

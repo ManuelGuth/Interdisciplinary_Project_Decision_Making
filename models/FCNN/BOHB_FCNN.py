@@ -1,5 +1,3 @@
-import logging
-
 import ccobra
 import torch
 import torch.nn as nn
@@ -8,7 +6,6 @@ import sys
 sys.path.append('..')
 from DataLoader import DataLoader
 from torch.utils.tensorboard import SummaryWriter
-from copy import deepcopy
 import numpy as np
 import ConfigSpace as CS
 from hpbandster.core.worker import Worker

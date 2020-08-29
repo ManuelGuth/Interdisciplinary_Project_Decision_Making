@@ -19,7 +19,7 @@ class LSTM(ccobra.CCobraModel):
         # set to path if you would like to load a model instead of training. Else False.
         self.load = False
         self.lr = 0.001
-        self.num_epochs = 100
+        self.num_epochs = 500
         self.batch_size = 5
         self.seq_length = 750
         name = name + '_ep{}_bs{}_sq{}_lr{}'.format(self.num_epochs, self.batch_size, self.seq_length, self.lr)

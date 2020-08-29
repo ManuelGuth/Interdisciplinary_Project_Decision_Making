@@ -3,3 +3,5 @@
 {'dropout': 0.3109543459151981, 'layer_1': 349, 'lr': 0.0002050426051200503, 'num_layers': 5, 'sigmoid': False, 'layer_2': 554, 'layer_3': 394, 'layer_4': 400, 'layer_5': 786}
 {'dropout': 0.3624663495556717, 'layer_1': 464, 'lr': 0.000217707828048176, 'num_layers': 2, 'sigmoid': False, 'layer_2': 758}
 {'dropout': 0.11286750896654463, 'layer_1': 297, 'lr': 0.00010190050729273525, 'num_layers': 4, 'sigmoid': False, 'layer_2': 303, 'layer_3': 325, 'layer_4': 310}
+-------------------------------------- long run
+{'dropout': 0.10212925041318119, 'layer_1': 310, 'lr': 0.00012972812410827966, 'num_layers': 7, 'sigmoid': False, 'layer_2': 424, 'layer_3': 838, 'layer_4': 413, 'layer_5': 171, 'layer_6': 456, 'layer_7': 858}

@@ -53,7 +53,7 @@ class BOHB_RandomForrest(ccobra.CCobraModel):
         run_id = 'first_run'
         host = '127.0.0.1'
         n_workers = 4
-        n_iterations = 150
+        n_iterations = 300
 
         data = DataLoader(dataset, 1, cuda=False)
         data = data.data_loader
