@@ -1,0 +1,10 @@
+{
+    "corresponding_data": false,
+    "data.pre_train": "data/single_prediction_data/decision-making-train.csv",
+    "data.test": "data/single_prediction_data/decision-making-test.csv",
+    "domains": ["decision-making"],
+    "response_types": ["single-choice"],
+    "models": [
+        "models/RandomForrest/RandomForrest_Single.py"
+    ]
+}

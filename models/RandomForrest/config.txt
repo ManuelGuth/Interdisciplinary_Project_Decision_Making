@@ -1,0 +1,2 @@
+Best config: n_trees: 552, max_depth: 8 -> single
+Best config: n_trees: 430, max_depth: 16 -> normal

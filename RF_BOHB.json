@@ -1,7 +1,7 @@
 {
     "corresponding_data": false,
-    "data.pre_train": "data/MLTrainTestSplit/decision-making-MLsplit-train.csv",
-    "data.test": "data/MLTrainTestSplit/decision-making-MLsplit-validation.csv",
+    "data.pre_train": "data/decision-making-train.csv",
+    "data.test": "data/decision-making-train.csv",
     "domains": ["decision-making"],
     "response_types": ["single-choice"],
     "models": [

@@ -1,0 +1,2 @@
+{'dropout': 0.10254465727167213, 'layers': 1, 'lr': 0.0018409406391466387} -> single
+No run for Normal since it takes to much time.
