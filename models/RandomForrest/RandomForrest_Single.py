@@ -10,12 +10,12 @@ class RandomForrest(ccobra.CCobraModel):
     """
     CCOBRA baseline model for the decision making task.
     """
-    def __init__(self, name='RandomForrest'):
+    def __init__(self, name='RandomForrest_Single'):
         """ Model constructor.
 
         """
-        self.max_depth = 16
-        self.n_trees = 430
+        self.max_depth = 8
+        self.n_trees = 552
 
         name = name + 'n_trees_{}_maxdepth_{}'.format(self.n_trees, self.max_depth)
 
@@ -41,7 +41,7 @@ class RandomForrest(ccobra.CCobraModel):
         """ Pre-trains the model based on one or more datasets.
 
         """
-        data = DataLoader(dataset, 1)
+        data = DataLoader(dataset, 1, single=True)
         data = data.data_loader
         X = []
         y = []
@@ -59,7 +59,7 @@ class RandomForrest(ccobra.CCobraModel):
         task: [[Ha, pHa, La, LotShapeA, NumLotA],[[Hb, pHb, Lb, LotShapeB, NumLotB]],[Amb, Corr]]
         """
         choice = ['A', 'B']
-        data = DataLoader([item, kwargs, self.prev_answer], batch_size=1, eval=True)
+        data = DataLoader([item, kwargs, self.prev_answer], batch_size=1, eval=True, single=True)
         data = np.array([data.data_loader])
         prediction = self.rf_classifier.predict(data)
         return choice[int(prediction)]

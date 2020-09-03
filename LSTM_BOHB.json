@@ -1,0 +1,10 @@
+{
+    "corresponding_data": false,
+    "data.pre_train": "data/decision-making-train.csv",
+    "data.test": "data/decision-making-train.csv",
+    "domains": ["decision-making"],
+    "response_types": ["single-choice"],
+    "models": [
+        "models/LSTM/BOHB_LSTM.py"
+    ]
+}
